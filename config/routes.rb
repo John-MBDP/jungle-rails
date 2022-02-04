@@ -73,4 +73,11 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  ##Routes for signup
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
+##Create the user in the database
+  get '/signup' => 'users#new'
+  post '/users' => 'users#create'
 end
