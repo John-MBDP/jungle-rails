@@ -1,2 +1,0 @@
-class PasswordDigestController < ApplicationController
-end
