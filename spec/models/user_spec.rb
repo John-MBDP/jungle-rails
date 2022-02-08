@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'password must have a minimum length' do
-      @user = User.new(first_name:'Mark', last_name: 'Bo', email: 'markbo@example.com', password: '123', password_confirmation: '123')
+      @user = User.new(first_name:'Mark', last_name: 'Bo', email: 'markbo@example.com', password: '1234', password_confirmation: '1234')
       expect(@user).to_not be_valid
       expect(@user.errors.full_messages).to eq(["Password is too short (minimum is 5 characters)"])
       
@@ -67,16 +67,19 @@ RSpec.describe User, type: :model do
     #examples for this class method here
     it 'should pass with valid credentials' do
     @user = User.create(first_name: 'Bob', last_name: 'Ben', email: 'bobben@example.com', password: '12345', password_confirmation: '12345')
-    expect(User.authenticate_with_credentials('bobben@example.com', '12345')).not_to be(nil)
+    user = User.authenticate_with_credentials('bobben@example.com', '12345')
+    expect(user.email).to eq(@user.email)
     end
 
     it 'logs in user with correct email in uppercase' do
     @user = User.create(first_name: 'Bob', last_name: 'Ben', email: 'bobben@example.com', password: '12345', password_confirmation: '12345')
-    expect(User.authenticate_with_credentials('BOBBEN@example.com', '12345')).not_to be(nil)
+    user = User.authenticate_with_credentials('BOBBEN@example.com', '12345')
+    expect(user.email).to eq(@user.email)
     end
-    it 'logs in user with correct email in uppercase' do
+    it 'logs in user with correct email and spaces' do
     @user = User.create(first_name: 'Bob', last_name: 'Ben', email: 'bobben@example.com', password: '12345', password_confirmation: '12345')
-    expect(User.authenticate_with_credentials(' bobben@example.com', '12345')).not_to be(nil)
+    user = User.authenticate_with_credentials('  bobben@example.com  ', '12345')
+    expect(user.email).to eq(@user.email)
     end
 
   end
